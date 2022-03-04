@@ -9,6 +9,8 @@
 import Foundation
 class APICall {
     var isPaginating = false
+
+    // fetch country array for pagination
     func fetchData(pagination: Bool = false, completion: @escaping (Result<[String], Error>) -> Void){
         if pagination {
             isPaginating = true
