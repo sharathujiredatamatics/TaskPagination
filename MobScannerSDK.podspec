@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
     s.author             = { "sharathujiredatamatics" => "sharath.ujire@digital.datamatics.com" }
 
     s.source       = { :git => 'https://github.com/sharathujiredatamatics/TaskPagination.git',
-                :branch => 'MobScannerSDK' }
+                :branch => 'mobscannersdk' }
 
     s.public_header_files = "MobScannerSDK.framework/Headers/*.h"
     s.source_files = "MobScannerSDK.framework/Headers/*.h"
