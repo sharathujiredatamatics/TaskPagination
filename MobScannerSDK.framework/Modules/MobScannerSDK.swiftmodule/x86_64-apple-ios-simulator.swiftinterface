@@ -1,0 +1,508 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5 effective-4.2 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4.2 -enforce-exclusivity=checked -Onone -module-name MobScannerSDK
+import AVFoundation
+import CommonCrypto
+import Foundation
+@_exported import MobScannerSDK
+import ObjectiveC
+import PDFKit
+import Photos
+import Swift
+import UIKit
+import Vision
+import _Concurrency
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class ImageFilterViewController : MobScannerSDK.BaseViewController, MobScannerSDK.FilterOptionDelegate {
+  @_Concurrency.MainActor(unsafe) public func onFilterSelected(filterName: Swift.String, filteredImage: UIKit.UIImage)
+  @_Concurrency.MainActor(unsafe) public func getOriginalImage() -> UIKit.UIImage
+  @_Concurrency.MainActor(unsafe) public var croppedImage: UIKit.UIImage
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension UIKit.UIImage {
+  public func rotate(degrees: Swift.Float) -> UIKit.UIImage?
+  public func resize(targetSize: CoreGraphics.CGSize, targetQuality: CoreGraphics.CGFloat = 1.0) -> UIKit.UIImage
+}
+public protocol TatsiColors {
+  var background: UIKit.UIColor { get }
+  var link: UIKit.UIColor { get }
+  var label: UIKit.UIColor { get }
+  var secondaryLabel: UIKit.UIColor { get }
+  var checkMark: UIKit.UIColor? { get }
+}
+extension MobScannerSDK.TatsiColors {
+  public var checkMark: UIKit.UIColor? {
+    get
+  }
+}
+public struct TatsiDefaultColors : MobScannerSDK.TatsiColors {
+  public var background: UIKit.UIColor
+  public var link: UIKit.UIColor
+  public let label: UIKit.UIColor
+  public let secondaryLabel: UIKit.UIColor
+}
+extension UIKit.UIColor {
+  public convenience init(argb: Swift.UInt)
+  public convenience init(rgb: Swift.UInt)
+}
+public protocol FilterOptionDelegate {
+  func onFilterSelected(filterName: Swift.String, filteredImage: UIKit.UIImage)
+  func getOriginalImage() -> UIKit.UIImage
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class FilterOptionList : UIKit.UIView, MobScannerSDK.CardViewListDelegete {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) public func cardView(_ scrollView: UIKit.UIScrollView, didSelectCardView cardView: UIKit.UIView, identifierCards identifier: Swift.String, index: Swift.Int)
+  @_Concurrency.MainActor(unsafe) public func setUp(delegate: MobScannerSDK.FilterOptionDelegate)
+  @objc deinit
+}
+open class CardViewAnimation {
+  public init()
+  open func scale(to: CoreGraphics.CGFloat, view: UIKit.UIView)
+  open func scaleShow(view: UIKit.UIView)
+  open func scaleShowBounce(view: UIKit.UIView)
+  open func bounce(view: UIKit.UIView)
+  open func bounce(view: UIKit.UIView, completion: @escaping () -> ())
+  open func transformToRight(view: UIKit.UIView)
+  open func transformToBottom(view: UIKit.UIView)
+  open func transformToTop(view: UIKit.UIView)
+  open func transformToLeft(view: UIKit.UIView)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class MobScannerSDK {
+  public static func setTheme(theme: MobScannerSDK.SDKColors)
+  public static func isInitialized() -> Swift.Bool
+  public static func initialize(uuid: Swift.String, apiKey: Swift.String, initCallBack: MobScannerSDK.SDKInitDelegate)
+  public static func getSDKVersion() -> Swift.String
+  @objc deinit
+}
+public enum PDFSize {
+  case A4
+  case A3
+  case LETTER
+  public static func == (a: MobScannerSDK.PDFSize, b: MobScannerSDK.PDFSize) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public class PDFSettings {
+  public init()
+  public var pdfSize: MobScannerSDK.PDFSize
+  public var applyMargin: Swift.Bool
+  public var imageQuality: Swift.Double
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class FilterCardView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) public var filterName: MobScannerSDK.FilterTypes
+  @_Concurrency.MainActor(unsafe) public var isSelected: Swift.Bool {
+    get
+    set(value)
+  }
+  @_Concurrency.MainActor(unsafe) public func setUp(previewImg: UIKit.UIImage)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc @_Concurrency.MainActor(unsafe) final public class DeviceImagerPicker : MobScannerSDK.TatsiPickerViewController, MobScannerSDK.TatsiPickerViewControllerDelegate {
+  @_Concurrency.MainActor(unsafe) final public var inputImagePickerDelegate: MobScannerSDK.InputImagePickerDelegate?
+  @_Concurrency.MainActor(unsafe) public init(numberOfSelection: Swift.Int)
+  @_Concurrency.MainActor(unsafe) final public func pickerViewController(_ pickerViewController: MobScannerSDK.TatsiPickerViewController, didPickAssets assets: [Photos.PHAsset])
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class CropView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var rectangleBorderColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var rectangleFillColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var circleBorderColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var circleBackgroundColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var selectedCircleBorderColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var selectedCircleBackgroundColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var rectangleBorderWidth: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public var circleBorderWidth: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public var circleBorderRadius: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public var circleAlpha: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public var rectangleAlpha: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public func setUpImage(image: UIKit.UIImage, screenSize: CoreGraphics.CGSize = UIScreen.main.bounds.size)
+  @_Concurrency.MainActor(unsafe) public func rotateImage(angle: Swift.Float)
+  @_Concurrency.MainActor(unsafe) public func reloadImage(screenSize: CoreGraphics.CGSize)
+  @_Concurrency.MainActor(unsafe) public func cropAndTransform(completionHandler: @escaping (_ image: UIKit.UIImage?) -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class CropViewController : MobScannerSDK.BaseViewController {
+  @_Concurrency.MainActor(unsafe) public var outputFolder: Swift.String?
+  @_Concurrency.MainActor(unsafe) public var imgFiles: [Swift.String]
+  @_Concurrency.MainActor(unsafe) public var outputImageTargetSize: CoreGraphics.CGSize?
+  @_Concurrency.MainActor(unsafe) public var outputImageQuality: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) public var documentReadyDelegate: MobScannerSDK.DocumentReadyDelegate?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension Dispatch.DispatchQueue {
+  public static func background<T>(background: (() -> T?)? = nil, completion: ((T?) -> Swift.Void)? = nil)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class CameraView : UIKit.UIView, AVFoundation.AVCapturePhotoCaptureDelegate {
+  @_Concurrency.MainActor(unsafe) public func startCamera(delegate: MobScannerSDK.CameraDelegate)
+  @_Concurrency.MainActor(unsafe) public func stopCamera()
+  @_Concurrency.MainActor(unsafe) public func onResize(newSize: CoreGraphics.CGSize)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func touchesBegan(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @_Concurrency.MainActor(unsafe) public func capture()
+  @_Concurrency.MainActor(unsafe) @objc public func photoOutput(_ output: AVFoundation.AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVFoundation.AVCapturePhoto, error: Swift.Error?)
+  @_Concurrency.MainActor(unsafe) public func updateFlashMode(flasMode: MobScannerSDK.FlashModes)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class MSSDKCore {
+  public static func cropUsingCIFilter(image: UIKit.UIImage, corners: [CoreGraphics.CGPoint]) -> UIKit.UIImage?
+  public static func getTransformedImage(newWidth: CoreGraphics.CGFloat, newHeight: CoreGraphics.CGFloat, origImage: UIKit.UIImage, corners: [CoreGraphics.CGPoint], size: CoreGraphics.CGSize, callback: @escaping ((UIKit.UIImage?) -> ()))
+  public static func getLargestSquarePoints(image: UIKit.UIImage, frameSize: CoreGraphics.CGSize, callback: @escaping ((Foundation.NSMutableArray?) -> ()))
+  public static func applyFilter(filterType: MobScannerSDK.FilterTypes, image: UIKit.UIImage, callback: @escaping ((UIKit.UIImage?) -> ()))
+  @objc deinit
+}
+public struct TatsiConfig {
+  public static var `default`: MobScannerSDK.TatsiConfig
+  public enum StartView {
+    case userLibrary
+    case albums
+    case album(Photos.PHAssetCollection)
+  }
+  public var colors: MobScannerSDK.TatsiColors
+  public var supportedMediaTypes: Swift.Set<Photos.PHAssetMediaType>
+  public var supportedMediaSubTypes: [Photos.PHAssetMediaSubtype]?
+  public var showCameraOption: Swift.Bool
+  public var maxNumberOfSelections: Swift.Int?
+  public var showRecentlyDeletedAlbum: Swift.Bool
+  public var showHiddenAlbum: Swift.Bool
+  public var showRecentlyAddedAlbum: Swift.Bool
+  public var showEmptyAlbums: Swift.Bool
+  public var showSharedAlbums: Swift.Bool
+  public var singleViewMode: Swift.Bool
+  public var firstView: MobScannerSDK.TatsiConfig.StartView
+  public var numberOfColumns: Swift.Int?
+  public var invertUserLibraryOrder: Swift.Bool
+  public var finishImmediatelyWithMaximumOfOne: Swift.Bool
+  public var preferredStatusBarStyle: UIKit.UIStatusBarStyle
+  public var localizableStringsTableName: Swift.String? {
+    get
+    set(value)
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class BaseViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var shouldAutorotate: Swift.Bool {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var supportedInterfaceOrientations: UIKit.UIInterfaceOrientationMask {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var preferredInterfaceOrientationForPresentation: UIKit.UIInterfaceOrientation {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension MobScannerSDK.CardViewListDelegete {
+  public func cardView(willDisplay scrollView: UIKit.UIScrollView, identifierCards identifier: Swift.String)
+  public func cardView(_ scrollView: UIKit.UIScrollView, willAttachCardView cardView: UIKit.UIView, identifierCards identifier: Swift.String, index: Swift.Int)
+  public func cardView(_ scrollView: UIKit.UIScrollView, willAttachCardViewController cardViewController: UIKit.UIViewController, identifierCards identifier: Swift.String, index: Swift.Int)
+  public func cardView(_ scrollView: UIKit.UIScrollView, didFinishDisplayCardViews cardViews: [UIKit.UIView], identifierCards identifier: Swift.String)
+  public func cardView(_ scrollView: UIKit.UIScrollView, didFinishDisplayCardViewControllers cardViewsController: [UIKit.UIViewController], identifierCards identifier: Swift.String)
+  public func cardView(_ scrollView: UIKit.UIScrollView, didSelectCardView cardView: UIKit.UIView, identifierCards identifier: Swift.String, index: Swift.Int)
+}
+public protocol CardViewListDelegete : AnyObject {
+  func cardView(_ scrollView: UIKit.UIScrollView, willAttachCardView cardView: UIKit.UIView, identifierCards identifier: Swift.String, index: Swift.Int)
+  func cardView(_ scrollView: UIKit.UIScrollView, willAttachCardViewController cardViewController: UIKit.UIViewController, identifierCards identifier: Swift.String, index: Swift.Int)
+  func cardView(_ scrollView: UIKit.UIScrollView, didSelectCardView cardView: UIKit.UIView, identifierCards identifier: Swift.String, index: Swift.Int)
+  func cardView(willDisplay scrollView: UIKit.UIScrollView, identifierCards identifier: Swift.String)
+  func cardView(_ scrollView: UIKit.UIScrollView, didFinishDisplayCardViews cardViews: [UIKit.UIView], identifierCards identifier: Swift.String)
+  func cardView(_ scrollView: UIKit.UIScrollView, didFinishDisplayCardViewControllers cardViewsController: [UIKit.UIViewController], identifierCards identifier: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class CardViewList : ObjectiveC.NSObject, UIKit.UIScrollViewDelegate {
+  public enum ListType {
+    case horizontal
+    case vertical
+    public static func == (a: MobScannerSDK.CardViewList.ListType, b: MobScannerSDK.CardViewList.ListType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum CardSizeType {
+    case autoSize
+    case square
+    case circle
+    public static func == (a: MobScannerSDK.CardViewList.CardSizeType, b: MobScannerSDK.CardViewList.CardSizeType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum AnimationScroll : Swift.String {
+    case none
+    case scaleBounce
+    case transformToRight
+    case transformToLeft
+    case transformToBottom
+    case transformToTop
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ClickAnimation {
+    case none
+    case bounce
+    public static func == (a: MobScannerSDK.CardViewList.ClickAnimation, b: MobScannerSDK.CardViewList.ClickAnimation) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) open var isShadowEnable: Swift.Bool
+  @_Concurrency.MainActor(unsafe) open var isClickable: Swift.Bool
+  @_Concurrency.MainActor(unsafe) open var isMultipleTouch: Swift.Bool
+  @_Concurrency.MainActor(unsafe) open var cornerRadius: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var shadowSize: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var shadowOpacity: Swift.Float
+  @_Concurrency.MainActor(unsafe) open var shadowColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) open var margin: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var marginCards: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var listType: MobScannerSDK.CardViewList.ListType
+  @_Concurrency.MainActor(unsafe) open var grid: Swift.Int
+  @_Concurrency.MainActor(unsafe) open var cardSizeType: MobScannerSDK.CardViewList.CardSizeType
+  @_Concurrency.MainActor(unsafe) open var maxWidth: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var maxHeight: CoreGraphics.CGFloat
+  @_Concurrency.MainActor(unsafe) open var animationScroll: MobScannerSDK.CardViewList.AnimationScroll
+  @_Concurrency.MainActor(unsafe) open var clickAnimation: MobScannerSDK.CardViewList.ClickAnimation
+  @_Concurrency.MainActor(unsafe) open var delegete: MobScannerSDK.CardViewListDelegete!
+  @objc override dynamic public init()
+  @_Concurrency.MainActor(unsafe) open func generateCardViewList(containerView: UIKit.UIView, viewControllers: [UIKit.UIViewController], listType: MobScannerSDK.CardViewList.ListType, identifier: Swift.String)
+  @_Concurrency.MainActor(unsafe) open func generateCardViewList(containerView: UIKit.UIView, views: [UIKit.UIView], listType: MobScannerSDK.CardViewList.ListType, identifier: Swift.String)
+  @_Concurrency.MainActor(unsafe) @objc public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
+  @_Concurrency.MainActor(unsafe) public func getAllViews() -> [UIKit.UIView]
+  @objc deinit
+}
+@objc public protocol BEMCheckBoxDelegate : ObjectiveC.NSObjectProtocol {
+  @objc optional func didTap(_ checkBox: MobScannerSDK.BEMCheckBox)
+  @objc optional func animationDidStop(for checkBox: MobScannerSDK.BEMCheckBox)
+}
+@_inheritsConvenienceInitializers @IBDesignable @objc @_Concurrency.MainActor(unsafe) public class BEMCheckBox : UIKit.UIControl, QuartzCore.CAAnimationDelegate {
+  @objc(BEMBoxType) public enum BoxType : Swift.Int {
+    case circle
+    case square
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc(BEMAnimationType) public enum AnimationType : Swift.Int {
+    case stroke
+    case fill
+    case bounce
+    case flat
+    case oneStroke
+    case fade
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) weak public var delegate: MobScannerSDK.BEMCheckBoxDelegate?
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var on: Swift.Bool {
+    @objc get
+    @objc set(newValue)
+  }
+  @objc @_Concurrency.MainActor(unsafe) public var boxType: MobScannerSDK.BEMCheckBox.BoxType {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var lineWidth: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var cornerRadius: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var animationDuration: Swift.Double {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var hideBox: Swift.Bool
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var onTintColor: UIKit.UIColor?
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var onFillColor: UIKit.UIColor? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var offFillColor: UIKit.UIColor? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var onCheckColor: UIKit.UIColor? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @_Concurrency.MainActor(unsafe) public var group: MobScannerSDK.BEMCheckBoxGroup?
+  @objc @_Concurrency.MainActor(unsafe) public var onAnimationType: MobScannerSDK.BEMCheckBox.AnimationType
+  @objc @_Concurrency.MainActor(unsafe) public var offAnimationType: MobScannerSDK.BEMCheckBox.AnimationType
+  @objc @_Concurrency.MainActor(unsafe) override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc @_Concurrency.MainActor(unsafe) required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var frame: CoreGraphics.CGRect {
+    @_Concurrency.MainActor(unsafe) @objc get
+    @_Concurrency.MainActor(unsafe) @objc set(value)
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var intrinsicContentSize: CoreGraphics.CGSize {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @objc @_Concurrency.MainActor(unsafe) public func setOn(_ on: Swift.Bool, animated: Swift.Bool = false)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func point(inside point: CoreGraphics.CGPoint, with event: UIKit.UIEvent?) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc public func animationDidStop(_ anim: QuartzCore.CAAnimation, finished flag: Swift.Bool)
+  @objc deinit
+}
+public enum FilterTypes : Swift.String, Swift.CaseIterable {
+  case none
+  case Auto
+  case Magic
+  case Gray
+  case BW1
+  case BW2
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [MobScannerSDK.FilterTypes]
+  public typealias RawValue = Swift.String
+  public static var allCases: [MobScannerSDK.FilterTypes] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol InputImagePickerDelegate {
+  func onInputImagePicked(images: [Swift.String])
+}
+public protocol DocumentReadyDelegate {
+  func onDocumentReady(outputImgFiles: [Swift.String])
+  func onUserCancelled()
+}
+public protocol SDKInitDelegate {
+  func onInitSuccess()
+  func onInitError(message: Swift.String)
+}
+public enum SDKErrors : Foundation.LocalizedError {
+  case NOT_INITIALIZED
+  public static func == (a: MobScannerSDK.SDKErrors, b: MobScannerSDK.SDKErrors) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol CameraDelegate {
+  func onImageCaptured(image: UIKit.UIImage?)
+  func onError(errorMessage: Swift.String)
+}
+public enum FlashModes {
+  case auto
+  case on
+  case off
+  public static func == (a: MobScannerSDK.FlashModes, b: MobScannerSDK.FlashModes) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol TatsiPickerViewControllerDelegate : AnyObject {
+  func pickerViewController(_ pickerViewController: MobScannerSDK.TatsiPickerViewController, didPickAssets assets: [Photos.PHAsset])
+  func pickerViewController(_ pickerViewController: MobScannerSDK.TatsiPickerViewController, didSelectCollection collection: Photos.PHAssetCollection)
+  func pickerViewControllerDidCancel(_ pickerViewController: MobScannerSDK.TatsiPickerViewController)
+  func cancelBarButtonItem(for pickerViewController: MobScannerSDK.TatsiPickerViewController) -> UIKit.UIBarButtonItem?
+  func doneBarButtonItem(for pickerViewController: MobScannerSDK.TatsiPickerViewController) -> UIKit.UIBarButtonItem?
+}
+extension MobScannerSDK.TatsiPickerViewControllerDelegate {
+  public func pickerViewController(_ pickerViewController: MobScannerSDK.TatsiPickerViewController, didSelectCollection collection: Photos.PHAssetCollection)
+  public func pickerViewControllerDidCancel(_ pickerViewController: MobScannerSDK.TatsiPickerViewController)
+  public func cancelBarButtonItem(for pickerViewController: MobScannerSDK.TatsiPickerViewController) -> UIKit.UIBarButtonItem?
+  public func doneBarButtonItem(for pickerViewController: MobScannerSDK.TatsiPickerViewController) -> UIKit.UIBarButtonItem?
+}
+@objc final public class BEMAnimationManager : ObjectiveC.NSObject {
+  @objc final public var animationDuration: Swift.Double
+  @objc public init(animationDuration: CoreFoundation.CFTimeInterval)
+  @objc final public func strokeAnimationReverse(_ reverse: Swift.Bool) -> QuartzCore.CABasicAnimation
+  @objc final public func opacityAnimationReverse(_ reverse: Swift.Bool) -> QuartzCore.CABasicAnimation
+  @objc final public func morphAnimation(from fromPath: UIKit.UIBezierPath?, to toPath: UIKit.UIBezierPath?) -> QuartzCore.CABasicAnimation
+  @objc final public func fillAnimation(withBounces bounces: Swift.Int, amplitude: CoreGraphics.CGFloat, reverse: Swift.Bool) -> QuartzCore.CAKeyframeAnimation
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class CameraViewController : MobScannerSDK.BaseViewController, MobScannerSDK.CameraDelegate {
+  @_Concurrency.MainActor(unsafe) public var currentFlashMode: MobScannerSDK.FlashModes
+  @_Concurrency.MainActor(unsafe) public var showCapture: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var isSingleShot: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public func onImageCaptured(image: UIKit.UIImage?)
+  @_Concurrency.MainActor(unsafe) public func onError(errorMessage: Swift.String)
+  @_Concurrency.MainActor(unsafe) public var inputImagePickerDelegate: MobScannerSDK.InputImagePickerDelegate?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillTransition(to size: CoreGraphics.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_Concurrency.MainActor(unsafe) open class TatsiPickerViewController : UIKit.UINavigationController {
+  @_Concurrency.MainActor(unsafe) final public let config: MobScannerSDK.TatsiConfig
+  @_Concurrency.MainActor(unsafe) weak public var pickerDelegate: MobScannerSDK.TatsiPickerViewControllerDelegate?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) public init(config: MobScannerSDK.TatsiConfig = TatsiConfig.default)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Img2Pdf {
+  public static func createPDF(folderPath: Foundation.URL, jpegFiles: [Swift.String], outputFileName: Swift.String, outputJpegQuality: Swift.Float = 0.9, callback: @escaping (((Foundation.URL?)?) -> ()))
+  public static func createPDF(jpegFiles: [Swift.String], outputFileName: Swift.String, outputJpegQuality: Swift.Float = 0.9, callback: @escaping (((Foundation.URL?)?) -> ()))
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class ImagePreviewViewController : MobScannerSDK.BaseViewController {
+  @_Concurrency.MainActor(unsafe) public var previewImage: UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc public class BEMCheckBoxGroup : ObjectiveC.NSObject {
+  @objc public var checkBoxes: Foundation.NSHashTable<MobScannerSDK.BEMCheckBox> {
+    get
+  }
+  @objc public var selectedCheckBox: MobScannerSDK.BEMCheckBox? {
+    @objc get
+    @objc set(newValue)
+  }
+  @objc public var mustHaveSelection: Swift.Bool {
+    @objc get
+    @objc set(value)
+  }
+  @objc override dynamic public init()
+  @objc public convenience init(checkBoxes: [MobScannerSDK.BEMCheckBox])
+  @objc public func contains(_ checkBox: MobScannerSDK.BEMCheckBox) -> Swift.Bool
+  @objc public func addCheckBoxToGroup(_ checkBox: MobScannerSDK.BEMCheckBox)
+  @objc public func removeCheckBoxFromGroup(_ checkBox: MobScannerSDK.BEMCheckBox)
+  @objc deinit
+}
+public protocol SDKColors {
+  var primaryColor: UIKit.UIColor { get }
+  var label: UIKit.UIColor { get }
+  var navBackgroundColor: UIKit.UIColor { get }
+}
+public struct SDKDefaultColors : MobScannerSDK.SDKColors {
+  public var navBackgroundColor: UIKit.UIColor
+  public var primaryColor: UIKit.UIColor
+  public let label: UIKit.UIColor
+}

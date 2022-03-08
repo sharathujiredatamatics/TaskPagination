@@ -1,0 +1,11 @@
+framework module MobScannerSDK {
+  umbrella header "MobScannerSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module MobScannerSDK.Swift {
+    header "MobScannerSDK-Swift.h"
+    requires objc
+}
