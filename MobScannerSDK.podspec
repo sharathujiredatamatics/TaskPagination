@@ -20,4 +20,6 @@ Pod::Spec.new do |spec|
   spec.source_files = "MobScannerSDK.framework/Headers/*.h"
 
   spec.vendored_frameworks = "MobScannerSDK.framework"
+
+  spec.pod_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
 end
